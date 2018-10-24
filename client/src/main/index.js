@@ -16,7 +16,7 @@ init({
 
 let mainWindow, store, parser
 const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`
-const logPath = path.join(app.getPath('userData'), '..', '..', 'LocalLow', 'Wizards of the Coast', 'MTGA', 'output_log.txt')
+const logPath = process.env.ARENA_LOG_PATH ? process.env.ARENA_LOG_PATH : path.join(app.getPath('userData'), '..', '..', 'LocalLow', 'Wizards of the Coast', 'MTGA', 'output_log.txt')
 
 function createWindow() {
   mainWindow = new BrowserWindow({
