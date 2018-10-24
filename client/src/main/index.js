@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { autoUpdater } from 'electron-updater'
 import { init } from '@sentry/electron'
 import path from 'path'
 import _ from 'lodash'
@@ -55,15 +54,6 @@ function createWindow() {
 }
 
 app.on('ready', async () => {
-  try {
-    let ur = await autoUpdater.checkForUpdates()
-    if (!!ur.downloadPromise) {
-      await ur.downloadPromise
-      autoUpdater.quitAndInstall()
-      return
-    }
-  } catch (e) {}
-
   store = storeFactory(app.getPath('userData'), ipcMain)
   parser = new Parser(store)
   tailLog(store, logPath, parser.parse.bind(parser))
