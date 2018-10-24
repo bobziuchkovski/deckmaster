@@ -65,11 +65,6 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"',
     }),
-    new SentryWebpackPlugin({
-      urlPrefix: '~/dist/electron/',
-      include: path.join(__dirname, '../dist/electron'),
-      release: `deckmaster-${version}`,
-    }),
   )
 }
 
