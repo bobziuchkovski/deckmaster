@@ -144,13 +144,6 @@ if (process.env.NODE_ENV === 'production') {
 
   rendererConfig.plugins.push(
     new BabiliWebpackPlugin(),
-    new CopyWebpackPlugin([
-      {
-        from: path.join(__dirname, '../static'),
-        to: path.join(__dirname, '../dist/electron/static'),
-        ignore: ['.*'],
-      },
-    ]),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"',
     }),

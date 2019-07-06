@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { autoUpdater } from 'electron-updater'
 import { init } from '@sentry/electron'
 import path from 'path'
 import _ from 'lodash'
@@ -17,7 +16,7 @@ init({
 
 let mainWindow, store, parser
 const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`
-const logPath = path.join(app.getPath('userData'), '..', '..', 'LocalLow', 'Wizards of the Coast', 'MTGA', 'output_log.txt')
+const logPath = process.env.ARENA_LOG_PATH ? process.env.ARENA_LOG_PATH : path.join(app.getPath('userData'), '..', '..', 'LocalLow', 'Wizards of the Coast', 'MTGA', 'output_log.txt')
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -55,15 +54,6 @@ function createWindow() {
 }
 
 app.on('ready', async () => {
-  try {
-    let ur = await autoUpdater.checkForUpdates()
-    if (!!ur.downloadPromise) {
-      await ur.downloadPromise
-      autoUpdater.quitAndInstall()
-      return
-    }
-  } catch (e) {}
-
   store = storeFactory(app.getPath('userData'), ipcMain)
   parser = new Parser(store)
   tailLog(store, logPath, parser.parse.bind(parser))
